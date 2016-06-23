@@ -18,6 +18,7 @@ import com.naef.jnlua.LuaState;
 
 import cpw.mods.fml.common.eventhandler.Event.Result;
 import io.netty.buffer.Unpooled;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
