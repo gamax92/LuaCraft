@@ -335,7 +335,7 @@ public class LuaByteBuf {
 	public static JavaFunction ReadInt = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PacketBuffer self = (PacketBuffer) l.checkUserdata(1, PacketBuffer.class, "ByteBuf");
-			l.pushNumber(self.readFloat());
+			l.pushNumber(self.readInt());
 			return 1;
 		}
 	};
