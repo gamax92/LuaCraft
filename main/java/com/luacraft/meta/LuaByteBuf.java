@@ -606,7 +606,7 @@ public class LuaByteBuf {
 
 	/**
 	 * @author Jake
-	 * @function WriteString
+	 * @function WriteData
 	 * @info Writes raw data to the buffer via a string
 	 * @arguments [[String]]:data
 	 * @return nil
