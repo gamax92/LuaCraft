@@ -311,7 +311,7 @@ public class LuaByteBuf {
 	/**
 	 * @author Jake
 	 * @function WriteInt
-	 * @info Writes a 32-bit number to the buffer
+	 * @info Writes a 32-bit integer to the buffer
 	 * @arguments [[Number]]:integer
 	 * @return nil
 	 */
@@ -327,7 +327,7 @@ public class LuaByteBuf {
 	/**
 	 * @author Jake
 	 * @function ReadInt
-	 * @info Reads a 32-bit number from the buffer
+	 * @info Reads a 32-bit integer from the buffer
 	 * @arguments nil
 	 * @return [[Number]]:integer
 	 */
@@ -343,7 +343,7 @@ public class LuaByteBuf {
 	/**
 	 * @author Jake
 	 * @function ReadUInt
-	 * @info Reads a 32-bit unsigned number from the buffer
+	 * @info Reads a 32-bit unsigned integer from the buffer
 	 * @arguments nil
 	 * @return [[Number]]:integer
 	 */
@@ -359,7 +359,7 @@ public class LuaByteBuf {
 	/**
 	 * @author Jake
 	 * @function WriteLong
-	 * @info Writes a 64-bit number to the buffer
+	 * @info Writes a 64-bit integer to the buffer
 	 * @arguments [[Number]]:long
 	 * @return nil
 	 */
@@ -375,7 +375,7 @@ public class LuaByteBuf {
 	/**
 	 * @author Jake
 	 * @function ReadLong
-	 * @info Reads a 64-bit number from the buffer
+	 * @info Reads a 64-bit integer from the buffer
 	 * @arguments nil
 	 * @return [[Number]]:long
 	 */
@@ -391,7 +391,7 @@ public class LuaByteBuf {
 	/**
 	 * @author Jake
 	 * @function WriteMedium
-	 * @info Writes a 24-bit number to the buffer
+	 * @info Writes a 24-bit integer to the buffer
 	 * @arguments [[Number]]:medium
 	 * @return nil
 	 */
@@ -407,7 +407,7 @@ public class LuaByteBuf {
 	/**
 	 * @author Jake
 	 * @function ReadMedium
-	 * @info Reads a 24-bit number from the buffer
+	 * @info Reads a 24-bit integer from the buffer
 	 * @arguments nil
 	 * @return [[Number]]:medium
 	 */
@@ -423,7 +423,7 @@ public class LuaByteBuf {
 	/**
 	 * @author Jake
 	 * @function ReadUMedium
-	 * @info Reads a 24-bit unsigned number from the buffer
+	 * @info Reads a 24-bit unsigned integer from the buffer
 	 * @arguments nil
 	 * @return [[Number]]:medium
 	 */
@@ -439,7 +439,7 @@ public class LuaByteBuf {
 	/**
 	 * @author Jake
 	 * @function WriteShort
-	 * @info Writes a 16-bit number to the buffer
+	 * @info Writes a 16-bit integer to the buffer
 	 * @arguments [[Number]]:medium
 	 * @return nil
 	 */
@@ -455,7 +455,7 @@ public class LuaByteBuf {
 	/**
 	 * @author Jake
 	 * @function ReadShort
-	 * @info Reads a 16-bit number from the buffer
+	 * @info Reads a 16-bit integer from the buffer
 	 * @arguments nil
 	 * @return [[Number]]:short
 	 */
@@ -471,7 +471,7 @@ public class LuaByteBuf {
 	/**
 	 * @author Jake
 	 * @function ReadShort
-	 * @info Reads a 16-bit unsigned number from the buffer
+	 * @info Reads a 16-bit unsigned integer from the buffer
 	 * @arguments nil
 	 * @return [[Number]]:short
 	 */
