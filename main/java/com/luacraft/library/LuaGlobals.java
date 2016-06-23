@@ -57,8 +57,13 @@ public class LuaGlobals {
 
 	public static JavaFunction ByteBuf = new JavaFunction() {
 		public int invoke(LuaState l) {
-			PacketBuffer buffer = new PacketBuffer(Unpooled.buffer(l.checkInteger(1, 32766)));
-			l.pushUserdataWithMeta(buffer, "ByteBuf");
+			ByteBuf buffer;
+			int capacity = l.checkInteger(1, 0);
+			if (capacity <= 0)
+				buffer = Unpooled.buffer();
+			else
+				buffer = Unpooled.buffer(capacity);
+			l.pushUserdataWithMeta(new PacketBuffer(buffer), "ByteBuf");
 			return 1;
 		}
 	};
