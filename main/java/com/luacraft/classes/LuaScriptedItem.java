@@ -22,6 +22,7 @@ public class LuaScriptedItem extends Item implements com.naef.jnlua.LuaUserdata 
 	private LuaState l;
 
 	public LuaScriptedItem(LuaState l) {
+		super();
 		this.l = l;
 	}
 
@@ -94,6 +95,31 @@ public class LuaScriptedItem extends Item implements com.naef.jnlua.LuaUserdata 
 		l.pushInteger(EnumRarity.epic.ordinal());
 		l.setGlobal("ITEM_RARITY_EPIC");
 
+		l.pushInteger(0);
+		l.setGlobal("TAB_BUILDING");
+		l.pushInteger(1);
+		l.setGlobal("TAB_DECORATIONS");
+		l.pushInteger(2);
+		l.setGlobal("TAB_REDSTONE");
+		l.pushInteger(3);
+		l.setGlobal("TAB_TRANSPORTATION");
+		l.pushInteger(4);
+		l.setGlobal("TAB_MISC");
+		l.pushInteger(5);
+		l.setGlobal("TAB_ALL");
+		l.pushInteger(6);
+		l.setGlobal("TAB_FOOD");
+		l.pushInteger(7);
+		l.setGlobal("TAB_TOOLS");
+		l.pushInteger(8);
+		l.setGlobal("TAB_COMBAT");
+		l.pushInteger(9);
+		l.setGlobal("TAB_BREWING");
+		l.pushInteger(10);
+		l.setGlobal("TAB_MATERIALS");
+		l.pushInteger(11);
+		l.setGlobal("TAB_INVENTORY");
+
 		l.newMetatable("ScriptedItem");
 		{
 			l.pushJavaFunction(__tostring);
@@ -111,6 +137,8 @@ public class LuaScriptedItem extends Item implements com.naef.jnlua.LuaUserdata 
 			l.setField(-2, "Rarity");
 			l.pushInteger(6000);
 			l.setField(-2, "Lifespan");
+			l.pushInteger(4);
+			l.setField(-2, "CreativeTab");
 
 			l.pushJavaFunction(dummyFunc);
 			l.setField(-2, "GetMaxDamage");

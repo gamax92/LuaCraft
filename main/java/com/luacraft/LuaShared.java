@@ -7,30 +7,10 @@ import com.luacraft.library.LuaLibLanguage;
 import com.luacraft.library.LuaLibSQL;
 import com.luacraft.library.LuaLibThread;
 import com.luacraft.library.LuaLibUtil;
-import com.luacraft.meta.LuaAngle;
-import com.luacraft.meta.LuaBlock;
-import com.luacraft.meta.LuaByteBuf;
-import com.luacraft.meta.LuaChannel;
-import com.luacraft.meta.LuaColor;
-import com.luacraft.meta.LuaContainer;
-import com.luacraft.meta.LuaDamageSource;
-import com.luacraft.meta.LuaDataWatcher;
-import com.luacraft.meta.LuaEntity;
-import com.luacraft.meta.LuaEntityDamageSource;
-import com.luacraft.meta.LuaEntityItem;
-import com.luacraft.meta.LuaItemStack;
-import com.luacraft.meta.LuaLiving;
-import com.luacraft.meta.LuaLivingBase;
-import com.luacraft.meta.LuaNBTTag;
-import com.luacraft.meta.LuaObject;
-import com.luacraft.meta.LuaPlayer;
-import com.luacraft.meta.LuaResource;
-import com.luacraft.meta.LuaSQLDatabase;
-import com.luacraft.meta.LuaSQLQuery;
-import com.luacraft.meta.LuaThread;
-import com.luacraft.meta.LuaVector;
-import com.luacraft.meta.LuaWorld;
+import com.luacraft.meta.*;
+import com.naef.jnlua.LuaRuntimeException;
 import com.naef.jnlua.LuaState;
+import com.naef.jnlua.LuaSyntaxException;
 
 import net.minecraftforge.common.MinecraftForge;
 
@@ -55,8 +35,15 @@ public class LuaShared extends LuaCraftState {
 
 	public void runSharedScripts() {
 		print("Loading autorun");
-		autorun(); // Load all files within autorun
-		autorun("shared"); // Failsafe, incase someone thinks they need a shared folder
+		try {
+			autorun(); // Load all files within autorun
+			autorun("shared"); // Failsafe, incase someone thinks they need a shared folder
+		} catch(LuaRuntimeException e) {
+			handleLuaError(e);
+		} catch(LuaSyntaxException e) {
+			e.printStackTrace();
+			error(e.getMessage());
+		}
 	}
 
 	public void close() {
@@ -139,16 +126,19 @@ public class LuaShared extends LuaCraftState {
 
 		// Meta
 		LuaAngle.Init(this);
+		LuaBiomeGenBase.Init(this);
 		LuaBlock.Init(this);
 		LuaByteBuf.Init(this);
 		LuaChannel.Init(this);
 		LuaColor.Init(this);
 		LuaContainer.Init(this);
+		LuaChunk.Init(this);
 		LuaDamageSource.Init(this);
 		LuaDataWatcher.Init(this);
 		LuaEntity.Init(this);
 		LuaEntityDamageSource.Init(this);
 		LuaEntityItem.Init(this);
+		LuaExplosion.Init(this);
 		LuaScriptedItem.Init(this);
 		LuaItemStack.Init(this);
 		LuaLiving.Init(this);

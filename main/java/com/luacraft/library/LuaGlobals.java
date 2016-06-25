@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
+import com.luacraft.LuaCraftState;
 import com.luacraft.classes.Angle;
 import com.luacraft.classes.Color;
 import com.luacraft.classes.FileMount;
@@ -317,6 +318,20 @@ public class LuaGlobals {
 		}
 	};
 
+	public static JavaFunction nanotime = new JavaFunction() {
+		public int invoke(LuaState l) {
+			l.pushNumber(System.nanoTime());
+			return 1;
+		}
+	};
+
+	public static JavaFunction print_lua_stack = new JavaFunction() {
+		public int invoke(LuaState l) {
+			((LuaCraftState)l).printStack();
+			return 0;
+		}
+	};
+
 	public static void Init(final LuaState l) {
 		l.pushJavaFunction(Angle);
 		l.setGlobal("Angle");
@@ -390,6 +405,12 @@ public class LuaGlobals {
 		l.setGlobal("IsLiving");
 		l.pushJavaFunction(LuaObject.IsItem);
 		l.setGlobal("IsItem");
+		l.pushJavaFunction(LuaObject.IsChunk);
+		l.setGlobal("IsChunk");
+		l.pushJavaFunction(LuaObject.IsExplosion);
+		l.setGlobal("IsExplosion");
+		l.pushJavaFunction(LuaObject.IsBiomeGenBase);
+		l.setGlobal("IsBiomeGenBase");
 
 		l.pushJavaFunction(FindMetaTable);
 		l.setGlobal("FindMetaTable");
@@ -400,6 +421,12 @@ public class LuaGlobals {
 		l.setGlobal("include");
 		l.pushJavaFunction(loadfile);
 		l.setGlobal("loadfile");
+
+		l.pushJavaFunction(nanotime);
+		l.setGlobal("nanotime");
+
+		l.pushJavaFunction(print_lua_stack);
+		l.setGlobal("print_lua_stack");
 
 		/*
 		 * @enum WORLD_NETHER

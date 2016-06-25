@@ -86,6 +86,17 @@ public class LuaCraftState extends LuaState {
 		LuaCraft.getLogger().warn(str);
 	}
 
+	public String getCallSource() {
+		getGlobal("debug");
+		getField(-1, "getinfo");
+		pushInteger(2);
+		call(1, 1);
+		getField(-1, "source");
+		String ret = checkString(-1);
+		pop(1);
+		return ret;
+	}
+
 	/**
 	 * @author Jake
 	 * @function lua.error
@@ -157,10 +168,10 @@ public class LuaCraftState extends LuaState {
 			new Vector(0, 0, 1).push(this);
 			break;
 		case 2:
-			new Vector(0, -1, 0).push(this);
+			new Vector(0, 1, 0).push(this);
 			break;
 		case 3:
-			new Vector(0, 1, 0).push(this);
+			new Vector(0, -1, 0).push(this);
 			break;
 		case 4:
 			new Vector(-1, 0, 0).push(this);
@@ -173,6 +184,60 @@ public class LuaCraftState extends LuaState {
 			break;
 		}
 	}
+
+	public String luaDataToString(int index) {
+		return luaDataToString(new StringBuilder(), index).toString();
+	}
+	public StringBuilder luaDataToString(StringBuilder buffer, int index) {
+		if(isNone(index)) {
+			buffer.append("none");
+			return buffer;
+		}
+		switch (type(index)) {
+			case NIL:
+				buffer.append("nil");
+				break;
+			case BOOLEAN:
+				buffer.append(checkBoolean(index));
+				break;
+			case NUMBER:
+				buffer.append(checkNumber(index));
+				break;
+			case STRING:
+				buffer.append(checkString(index));
+				break;
+			default:
+			case LIGHTUSERDATA:
+			case TABLE:
+			case FUNCTION:
+			case USERDATA:
+			case THREAD:
+				buffer.append(typeName(index));
+				buffer.append(":");
+				buffer.append(Long.toHexString(toPointer(index)));
+				break;
+		}
+		return buffer;
+	}
+
+	/**
+	 * -- So fancy --
+	 * pls dont read the code below
+	 */
+	public void printStack() {printStack("");}
+	public void printStack(String mark) {
+		String stackContents = "";
+		for(int i = 1; i <= getTop(); i++) {
+			stackContents += String.format("%20s| %s\n",
+					String.format("%d <> %d", i, -1 * ((getTop() + 1) - i)),
+					luaDataToString(i));
+		}
+		String output;
+		System.out.printf(output = String.format("%-20s| %s\n%s\n", mark + "INDEX", "VALUE", stackContents));
+		print(output);
+	}
+
+
 
 	public void autorun() {
 		autorun("");
@@ -222,6 +287,10 @@ public class LuaCraftState extends LuaState {
 	}
 
 	public void includeFile(File file) {
+		includeFile(file, true);
+	}
+
+	public void includeFile(File file, boolean shouldCall) {
 		if (!file.isFile())
 			return;
 
@@ -231,7 +300,7 @@ public class LuaCraftState extends LuaState {
 		InputStream in = null;
 		try {
 			in = new FileInputStream(file);
-			includeFileStream(in, FileMount.CleanPath(file));
+			includeFileStream(in, FileMount.CleanPath(file), shouldCall);
 		} catch (IOException e) {
 			throw new LuaRuntimeException("Cannot open " + FileMount.CleanPath(file) + ": No such file or directory");
 		} catch (LuaRuntimeException e) {
@@ -246,8 +315,12 @@ public class LuaCraftState extends LuaState {
 	}
 
 	public void includeFileStream(InputStream in, String file) throws IOException {
+		includeFileStream(in, file, true);
+	}
+
+	public void includeFileStream(InputStream in, String file, boolean shouldCall) throws IOException {
 		print("Loading: " + file);
 		load(in, file);
-		call(0, 0);
+		if(shouldCall) call(0, 0);
 	}
 }
