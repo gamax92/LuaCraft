@@ -734,6 +734,8 @@ public class LuaWorld {
 			l.setField(-2, "GetBlock");
 			l.pushJavaFunction(GetTopBlock);
 			l.setField(-2, "GetTopBlock");
+			l.pushJavaFunction(ChatPrint);
+			l.setField(-2, "ChatPrint");
 			l.pushJavaFunction(GetPlayers);
 			l.setField(-2, "GetPlayers");
 			l.pushJavaFunction(GetPlayerByName);
@@ -748,6 +750,8 @@ public class LuaWorld {
 			l.setField(-2, "CreateEntity");
 			l.pushJavaFunction(IsDayTime);
 			l.setField(-2, "IsDayTime");
+			l.pushJavaFunction(IsNightTime);
+			l.setField(-2, "IsNightTime");
 			l.pushJavaFunction(GetTime);
 			l.setField(-2, "GetTime");
 			l.pushJavaFunction(SetTime);
