@@ -12,6 +12,7 @@ import com.naef.jnlua.LuaRuntimeException;
 import com.naef.jnlua.LuaState;
 import com.naef.jnlua.LuaSyntaxException;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraftforge.common.MinecraftForge;
 
 public class LuaShared extends LuaCraftState {
@@ -31,6 +32,7 @@ public class LuaShared extends LuaCraftState {
 			LuaCraft.channel.register(packet);
 			print("Registering shared event manager");
 			MinecraftForge.EVENT_BUS.register(luaEvent);
+			FMLCommonHandler.instance().bus().register(luaEvent);
 		}
 	}
 
@@ -47,6 +49,7 @@ public class LuaShared extends LuaCraftState {
 		}
 	}
 
+	@Override
 	public void close() {
 		if (packet != null) {
 			print("Unregistering packet manager");
@@ -56,6 +59,7 @@ public class LuaShared extends LuaCraftState {
 		if (luaEvent != null) {
 			print("Unregistering shared event manager");
 			MinecraftForge.EVENT_BUS.unregister(luaEvent);
+			FMLCommonHandler.instance().bus().unregister(luaEvent);
 			luaEvent = null;
 		}
 		LuaLibThread.interruptActiveThreads();

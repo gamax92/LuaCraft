@@ -11,6 +11,8 @@ import com.luacraft.meta.client.*;
 
 import com.naef.jnlua.LuaRuntimeException;
 import com.naef.jnlua.LuaSyntaxException;
+
+import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraftforge.common.MinecraftForge;
 
 import java.io.File;
@@ -27,6 +29,7 @@ public class LuaClient extends LuaShared {
 			luaClientEvent = new LuaEventManagerClient(this);
 			print("Registering client event manager");
 			MinecraftForge.EVENT_BUS.register(luaClientEvent);
+			FMLCommonHandler.instance().bus().register(luaClientEvent);
 		}
 	}
 
@@ -48,11 +51,13 @@ public class LuaClient extends LuaShared {
 		}
 	}
 
+	@Override
 	public void close() {
 		super.close();
 		if (luaClientEvent != null) {
 			print("Unregistering client event manager");
 			MinecraftForge.EVENT_BUS.unregister(luaClientEvent);
+			FMLCommonHandler.instance().bus().unregister(luaClientEvent);
 			luaClientEvent = null;
 		}
 	}
