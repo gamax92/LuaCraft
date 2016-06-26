@@ -4,7 +4,6 @@ import com.luacraft.LuaCraft;
 import cpw.mods.fml.relauncher.Side;
 
 import java.awt.*;
-import java.io.PrintStream;
 
 /**
  * Save your eyes and don't look below

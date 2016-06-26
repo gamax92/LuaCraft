@@ -11,13 +11,8 @@ import cpw.mods.fml.relauncher.Side;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
 
 public class ConsoleFrame extends JFrame
 {

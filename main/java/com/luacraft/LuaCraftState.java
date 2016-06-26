@@ -32,6 +32,7 @@ public class LuaCraftState extends LuaState implements ILuaReloader {
 		reloader = new LuaReloader(this);
 	}
 
+	@Override
 	public void close()
 	{
 		if(reloader != null) reloader.shutdown();

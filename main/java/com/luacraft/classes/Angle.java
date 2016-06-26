@@ -127,6 +127,7 @@ public class Angle implements LuaUserdata {
 		return new Vector(x, y, z);
 	}
 
+	@Override
 	public String toString() {
 		return String.format("Angle [%.3f, %.3f, %.3f]", p, y, r);
 	}

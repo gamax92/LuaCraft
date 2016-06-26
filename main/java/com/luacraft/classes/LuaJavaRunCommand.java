@@ -49,10 +49,12 @@ public class LuaJavaRunCommand extends CommandBase {
 		return "commands.lua.usage";
 	}
 
+	@Override
 	public boolean canCommandSenderUseCommand(ICommandSender iCommandSender) {
 		return true;
 	}
 
+	@Override
 	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args) {
 		List<String> options = new ArrayList<String>();
 

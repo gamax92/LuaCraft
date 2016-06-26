@@ -38,6 +38,7 @@ public class LuaJavaQuery extends Thread implements LuaUserdata {
 		l.remove(-2);
 	}
 
+	@Override
 	public void run() {
 		ResultSet result = null;
 		try {

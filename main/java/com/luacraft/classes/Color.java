@@ -92,6 +92,7 @@ public class Color implements LuaUserdata {
 		return new Color(red, green, blue, alpha);
 	}
 
+	@Override
 	public String toString() {
 		return String.format("Color [%d, %d, %d %d][#%08X]", r, g, b, a, getRGBA());
 	}

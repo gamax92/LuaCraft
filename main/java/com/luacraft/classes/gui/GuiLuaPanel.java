@@ -11,11 +11,13 @@ public class GuiLuaPanel extends GuiScreen {
 		l = new LuaGuiHandler(luaState);
 	}
 
+	@Override
 	public void initGui() {
 		l.pushField("Init");
 		l.call(1, 0);
 	}
 
+	@Override
 	public void keyTyped(char par1, int par2) {
 		l.pushField("OnKeyPress");
 		l.pushInteger(par1);
@@ -28,6 +30,7 @@ public class GuiLuaPanel extends GuiScreen {
 		l.setTop(0);
 	}
 
+	@Override
 	public void mouseClicked(int par1, int par2, int par3) {
 		l.pushField("OnMouseClicked");
 		l.pushInteger(par1);
@@ -41,16 +44,19 @@ public class GuiLuaPanel extends GuiScreen {
 		l.setTop(0);
 	}
 
+	@Override
 	public void onGuiClosed() {
 		l.pushField("OnClosed");
 		l.call(1, 0);
 	}
 
+	@Override
 	public void updateScreen() {
 		l.pushField("Think");
 		l.call(1, 0);
 	}
 
+	@Override
 	public void drawScreen(int par1, int par2, float par3) {
 		l.pushField("Paint");
 		l.pushInteger(par1);

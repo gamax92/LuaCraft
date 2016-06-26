@@ -166,6 +166,7 @@ public class LuaAddon
         return version;
     }
 
+    @Override
     public boolean equals(Object object) {
         if(object instanceof LuaAddon) {
             return root.getPath().equals(((LuaAddon) object).getRoot().getPath());

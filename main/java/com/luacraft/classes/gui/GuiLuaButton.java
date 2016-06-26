@@ -13,6 +13,7 @@ public class GuiLuaButton extends GuiButton {
 		l = new LuaGuiHandler(luaState);
 	}
 
+	@Override
 	public void drawButton(Minecraft client, int par1, int par2) {
 		l.pushField("Paint");
 		l.pushInteger(par1);
@@ -25,6 +26,7 @@ public class GuiLuaButton extends GuiButton {
 		l.setTop(0);
 	}
 
+	@Override
 	public void mouseDragged(Minecraft client, int par1, int par2) {
 		l.pushField("MouseDragged");
 		l.pushInteger(par1);
@@ -37,6 +39,7 @@ public class GuiLuaButton extends GuiButton {
 		l.setTop(0);
 	}
 
+	@Override
 	public boolean mousePressed(Minecraft client, int par1, int par2) {
 		l.pushField("MousePressed");
 		l.pushInteger(par1);

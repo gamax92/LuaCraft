@@ -150,6 +150,7 @@ public class Vector implements LuaUserdata {
 		return Vec3.createVectorHelper(x, z, y);
 	}
 
+	@Override
 	public String toString() {
 		return String.format("Vector [%.3f, %.3f, %.3f]", x, y, z);
 	}

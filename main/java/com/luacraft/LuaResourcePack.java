@@ -166,7 +166,7 @@ public class LuaResourcePack implements IResourcePack {
     }
     public TreeMap getFolder(TreeMap<String, Object> root, String name) {
         for(Map.Entry<String, Object> entry : root.entrySet()) {
-            String key = (String)entry.getKey();
+            String key = entry.getKey();
             Object value = entry.getValue();
             if(key.equals(name) &&
                     value instanceof TreeMap)
@@ -185,7 +185,7 @@ public class LuaResourcePack implements IResourcePack {
     }
     public File getFile(TreeMap<String, Object> root, String name) {
         for(Map.Entry<String, Object> entry : root.entrySet()) {
-            String key = (String)entry.getKey();
+            String key = entry.getKey();
             Object value = entry.getValue();
             if(key.equals(name) &&
                     value instanceof File)
@@ -205,7 +205,7 @@ public class LuaResourcePack implements IResourcePack {
     }
     public void buildJar(TreeMap<String, Object> root, String rootPath) {
         for(Map.Entry<String, Object> ent : root.entrySet()) {
-            String name = (String)ent.getKey();
+            String name = ent.getKey();
             Object value = ent.getValue();
             if(value instanceof File) {
                 File file = (File)value;
@@ -341,7 +341,7 @@ public class LuaResourcePack implements IResourcePack {
         TreeMap<String, Object> map = getFolder("assets");
         if(map != null) {
             for (Map.Entry<String, Object> entry : map.entrySet()) {
-                String name = (String) entry.getKey();
+                String name = entry.getKey();
                 Object value = entry.getValue();
                 if(value instanceof TreeMap)
                     domains.add(name);

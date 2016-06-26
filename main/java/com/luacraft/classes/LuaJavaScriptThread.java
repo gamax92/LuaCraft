@@ -15,6 +15,7 @@ public class LuaJavaScriptThread extends LuaJavaThread {
 		file = f;
 	}
 
+	@Override
 	public void run() {
 		if (state.getActualSide().isClient()) {
 			l = new LuaClient();

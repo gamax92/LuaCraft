@@ -16,7 +16,7 @@ public class LuaByteBuf {
 	/**
 	 * @author Jake
 	 * @function Send
-	 * @info Sends the buffer to a player or a table of palyers
+	 * @info Sends the buffer to a player or a table of players
 	 * @arguments [[Player]]:player or [[Table]]:players, ...
 	 * @return nil
 	 */

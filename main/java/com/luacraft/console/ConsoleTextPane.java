@@ -3,8 +3,6 @@ package com.luacraft.console;
 import javax.swing.*;
 import javax.swing.text.*;
 import java.awt.*;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**

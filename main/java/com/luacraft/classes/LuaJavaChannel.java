@@ -72,6 +72,7 @@ public class LuaJavaChannel extends Stack implements LuaUserdata {
 		return new LuaChannelObject(type, object, meta);
 	}
 
+	@Override
 	public synchronized boolean empty() {
 		return super.empty();
 	}

@@ -484,6 +484,7 @@ public class LuaScriptedItem extends Item implements com.naef.jnlua.LuaUserdata 
 		}
 	}
 
+	@Override
 	public EnumRarity getRarity(ItemStack stack) {
 		synchronized (l) {
 			if (!l.isOpen())
