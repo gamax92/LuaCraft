@@ -12,6 +12,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 
+import com.luacraft.classes.FileMount;
+import com.luacraft.console.ConsoleManager;
+import net.minecraftforge.common.MinecraftForge;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -33,12 +36,16 @@ import cpw.mods.fml.common.event.FMLServerStoppingEvent;
 import cpw.mods.fml.common.network.FMLEventChannel;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.relauncher.Side;
-import net.minecraftforge.common.config.Configuration;
 
-@Mod(modid = LuaCraft.MODID, version = LuaCraft.VERSION)
+@Mod(modid = LuaCraft.MODID,
+		name = LuaCraft.MODNAME,
+		version = LuaCraft.VERSION,
+		guiFactory = "com.luacraft.LuaCraftGuiFactory")
 public class LuaCraft {
+	public static final String MODNAME = "LuaCraft";
 	public static final String MODID = "luacraft";
 	public static final String VERSION = "1.2";
+	public static final String DEFAULT_RESOURCEPACK = "luacraftassets";
 
 	public static HashMap<String, LuaJavaChannel> threadChannels = new HashMap<String, LuaJavaChannel>();
 
@@ -47,13 +54,11 @@ public class LuaCraft {
 
 	private static Logger luaLogger;
 	private static LuaLoader luaLoader = new LuaLoader(rootDir);
-	private static HashMap<Side, LuaCraftState> luaStates = new HashMap<Side, LuaCraftState>();
+	public static HashMap<Side, LuaCraftState> luaStates = new HashMap<Side, LuaCraftState>();
 
 	public static FMLEventChannel channel = null;
 
-	public static Configuration config;
-
-	public static boolean scriptEnforcer = true;
+	public static LuaConfig config;
 
 	public static FMLClientHandler getForgeClient() {
 		return FMLClientHandler.instance();
@@ -64,11 +69,20 @@ public class LuaCraft {
 		ModContainer modContainer = FMLCommonHandler.instance().findContainerFor(this);
 		luaLogger = LogManager.getLogger(modContainer.getName());
 
-		config = new Configuration(event.getSuggestedConfigurationFile());
-		config.load();
-		scriptEnforcer = config.getBoolean("script-enforcer", "server", true,
-				"Prevent clients from running their own Lua scripts");
-		config.save();
+		config = new LuaConfig(event.getSuggestedConfigurationFile());
+
+		FileMount.SetRoot(rootDir + "luacraft");
+		FileMount.CreateDirectories("addons");
+		FileMount.CreateDirectories("jars");
+		FileMount.CreateDirectories("lua\\autorun\\client");
+		FileMount.CreateDirectories("lua\\autorun\\server");
+		FileMount.CreateDirectories("lua\\autorun\\shared");
+
+		LuaAddonManager.initialize();
+		// Don't know if this is correct but using this on a server will cause crashes.
+		if (event.getSide() == Side.CLIENT) {
+			LuaResourcePackLoader.initialize();
+		}
 	}
 
 	@EventHandler
@@ -76,6 +90,10 @@ public class LuaCraft {
 		channel = NetworkRegistry.INSTANCE.newEventDrivenChannel("LuaCraft");
 
 		NativeSupport.getInstance().setLoader(luaLoader);
+
+		MinecraftForge.EVENT_BUS.register(config);
+
+		ConsoleManager.create();
 
 		if (event.getSide() == Side.CLIENT) {
 			LuaClient luaState = new LuaClient();

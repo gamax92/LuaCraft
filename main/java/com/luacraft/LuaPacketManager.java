@@ -1,5 +1,7 @@
 package com.luacraft;
 
+import java.io.IOException;
+
 import com.naef.jnlua.LuaRuntimeException;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -25,11 +27,28 @@ public class LuaPacketManager {
 
 			try {
 				PacketBuffer buffer = new PacketBuffer(event.packet.payload());
+
+				// Peek into the packet
+				String func = buffer.readStringFromBuffer(32767);
+
+				// If it's a LuaFile handle it internally
+				if (func.equals("LuaFile")) {
+					String file = buffer.readStringFromBuffer(32767);
+					//byte[] data = buffer.readByteArray();
+			        byte[] data = new byte[buffer.readVarIntFromBuffer()];
+			        buffer.readBytes(data);
+					l.downloadLuaFile(file, data);
+					return;
+				}
+
+				buffer.readerIndex(0);
 				l.pushIncomingNet();
 				l.pushUserdataWithMeta(buffer, "ByteBuf");
 				l.call(1, 0);
 			} catch (LuaRuntimeException e) {
 				l.handleLuaError(e);
+			} catch (IOException e) {
+				l.handleLuaError(new LuaRuntimeException(e));
 			}
 		}
 	}

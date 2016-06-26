@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import com.luacraft.classes.FileMount;
 import com.luacraft.classes.Vector;
+import com.luacraft.console.ConsoleManager;
 import com.naef.jnlua.LuaRuntimeException;
 import com.naef.jnlua.LuaStackTraceElement;
 import com.naef.jnlua.LuaState;
@@ -20,9 +21,22 @@ import cpw.mods.fml.server.FMLServerHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.MinecraftServer;
 
-public class LuaCraftState extends LuaState {
+public class LuaCraftState extends LuaState implements ILuaReloader {
 	private boolean scriptEnforcer = false;
 	private Side sideOverride = null;
+
+	protected LuaReloader reloader;
+
+	public void setupReloader()
+	{
+		reloader = new LuaReloader(this);
+	}
+
+	public void close()
+	{
+		if(reloader != null) reloader.shutdown();
+		super.close();
+	}
 
 	public void setSideOverride(Side side) {
 		sideOverride = side;
@@ -72,18 +86,22 @@ public class LuaCraftState extends LuaState {
 
 	public void print(String str) {
 		LuaCraft.getLogger().info(str);
+		ConsoleManager.get(getActualSide()).onPrint(str);
 	}
 
 	public void error(String str) {
 		LuaCraft.getLogger().error(str);
+		ConsoleManager.get(getActualSide()).onError(str);
 	}
 
 	public void info(String str) {
 		LuaCraft.getLogger().info(str);
+		ConsoleManager.get(getActualSide()).onInfo(str);
 	}
 
 	public void warning(String str) {
 		LuaCraft.getLogger().warn(str);
+		ConsoleManager.get(getActualSide()).onWarning(str);
 	}
 
 	public String getCallSource() {
@@ -244,14 +262,19 @@ public class LuaCraftState extends LuaState {
 	}
 
 	public void autorun(String side) {
-		ArrayList<File> files = FileMount.GetFilesIn("lua/autorun/" + side);
+		String path = "lua/autorun";
+		if(!side.isEmpty()) path += "/" + side;
+		ArrayList<File> files = FileMount.GetFilesIn(path + "/*.lua");
+		if(reloader != null) {
+			reloader.register(new File(FileMount.GetRoot(), path).getPath());
+		}
 
 		for (File file : files)
 			includeFile(file);
 	}
 
 	public void includeDirectory(String base) {
-		ArrayList<File> files = FileMount.GetFilesIn("lua/" + base);
+		ArrayList<File> files = FileMount.GetFilesIn("lua/" + base + "/*.lua");
 
 		for (File file : files)
 			includeFiles(file);
@@ -322,5 +345,17 @@ public class LuaCraftState extends LuaState {
 		print("Loading: " + file);
 		load(in, file);
 		if(shouldCall) call(0, 0);
+	}
+
+	@Override
+	public synchronized void onFileChange(File file) {
+		try {
+			if (file.isFile()) {
+				print(String.format("Reloading file %s", file.getName()));
+				includeFile(file);
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
