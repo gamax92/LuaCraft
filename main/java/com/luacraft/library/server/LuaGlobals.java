@@ -11,6 +11,7 @@ import com.naef.jnlua.LuaState;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.dedicated.PropertyManager;
 import net.minecraft.world.World;
+import net.minecraftforge.common.DimensionManager;
 
 public class LuaGlobals {
 	private static MinecraftServer server = null;
@@ -42,7 +43,7 @@ public class LuaGlobals {
 
 	public static JavaFunction World = new JavaFunction() {
 		public int invoke(LuaState l) {
-			World world = server.worldServers[l.checkInteger(1, 0)];
+			World world = DimensionManager.getWorld(l.checkInteger(1, 0));
 			LuaUserdata.PushUserdata(l, world);
 			return 1;
 		}
